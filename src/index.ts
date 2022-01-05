@@ -144,9 +144,6 @@ export function getAge(
     cnt += 1;
   }
   if (cnt >= levels) return str;
-  if (delta.seconds) {
-    str += `${delta.seconds}s`;
-    cnt += 1;
-  }
+  str += `${delta.seconds}s`;
   return str;
 }
