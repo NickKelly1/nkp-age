@@ -1,4 +1,4 @@
-## @nkp/age
+# @nkp/age
 
 [![npm version](https://badge.fury.io/js/%40nkp%2Fage.svg)](https://www.npmjs.com/package/@nkp/age)
 [![deploy status](https://github.com/nickkelly1/nkp-age/actions/workflows/release.yml/badge.svg)](https://github.com/nickkelly1/nkp-age/actions/workflows/release.yml)
