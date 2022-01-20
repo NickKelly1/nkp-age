@@ -47,10 +47,6 @@ pnpm add @nkp/age
 
 `@nkp/age` targets CommonJS and ES modules. To utilise ES modules consider using a bundler like `webpack` or `rollup`.
 
-## Usage
-
----USAGE-TEXT---
-
 ## Updating dependencies
 
 To update dependencies run one of
