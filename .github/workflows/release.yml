@@ -40,6 +40,7 @@ jobs:
       - name: test
         run: pnpm run test
   publish:
+    needs: ["test"]
     runs-on: ubuntu-latest
     steps:
       # checkout code on the branch
