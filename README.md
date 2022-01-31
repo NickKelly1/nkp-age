@@ -15,12 +15,16 @@ console.log(getAge(new Date(2021, 2, 3)));
 
 ## Table of contents
 
+- [Exports](#exports)
 - [Installation](#installation)
   - [npm](#npm)
   - [yarn](#yarn)
   - [pnpm](#pnpm)
-  - [Exports](#exports)
 - [Publishing](#publishing)
+
+## Exports
+
+`@nkp/age` exports both CommonJS and ES modules.
 
 ## Installation
 
@@ -41,10 +45,6 @@ yarn add @nkp/age
 ```sh
 pnpm add @nkp/age
 ```
-
-### Exports
-
-`@nkp/age` targets CommonJS and ES modules.
 
 ## Publishing
 
