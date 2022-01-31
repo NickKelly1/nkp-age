@@ -1,7 +1,7 @@
 {
   "name": "@nkp/age",
   "sideEffects": false,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Get an approximate human readable number of years, months,days, hours, minutes, seconds between dates.",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
