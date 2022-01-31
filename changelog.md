@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0 - 2022-01-30
+
+Stable release
+
 ## 0.0.4 - 2022-01-30
 
 ### Added
