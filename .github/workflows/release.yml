@@ -10,9 +10,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    needs: ["test"]
     steps:
+      # checkout code on the branch
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
         with:
           node-version: 12.22.6
           registry-url: https://registry.npmjs.org/
@@ -24,3 +25,34 @@ jobs:
       - run: npm publish ./dist --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: ["12.22.6", "14.x", "16.x"]
+    steps:
+      # checkout code on the branch
+      - uses: actions/checkout@v2
+      # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: "https://registry.npmjs.org/"
+      # https://github.com/pnpm/action-setup
+      - name: cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      # https://github.com/pnpm/action-setup
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.x
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+      - name: test
+        run: pnpm run test
