@@ -20,8 +20,7 @@ console.log(getAge(new Date(2021, 2, 3)));
   - [yarn](#yarn)
   - [pnpm](#pnpm)
   - [Exports](#exports)
-- [Usage](#usage)
-- [Updating Dependencies](#updating-dependencies)
+- [Publishing](#publishing)
 
 ## Installation
 
@@ -46,30 +45,6 @@ pnpm add @nkp/age
 ### Exports
 
 `@nkp/age` targets CommonJS and ES modules.
-
-## Updating dependencies
-
-To update dependencies run one of
-
-```sh
-# if npm
-# update package.json
-npx npm-check-updates -u
-# install
-npm install
-
-# if yarn
-# update package.json
-yarn create npm-check-updates -u
-# install
-yarn
-
-# if pnpm
-# update package.json
-pnpx npm-check-updates -u
-# install
-pnpm install
-```
 
 ## Publishing
 
