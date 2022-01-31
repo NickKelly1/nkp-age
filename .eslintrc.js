@@ -33,7 +33,7 @@ const config = {
   'parser': '@typescript-eslint/parser',
   'parserOptions': {
     'ecmaVersion': 2021,
-    'sourceType': ['module', 'commonjs',],
+    // 'sourceType': ['module', 'commonjs',],
     'ecmaFeatures': {
       jsx: true, // Allows for the parsing of JSX
     },

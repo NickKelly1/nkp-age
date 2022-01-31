@@ -21,25 +21,6 @@ export interface AgeOptions {
 }
 
 /**
- * defaults for usage with `@nkp/age` functions
- */
-export const AGE_DEFAULTS = {
-  SECONDS_PER_SECOND: 1,
-  SECONDS_PER_MINUTE: 1 * 60,
-  SECONDS_PER_HOUR  : 1 * 60 * 60,
-  SECONDS_PER_DAY   : 1 * 60 * 60 * 24,
-  // on average 30.437 days in a month
-  SECONDS_PER_MONTH : 1 * 60 * 60 * 24 * 30.437,
-  // SECONDS_PER_MONTH : 1 * 60 * 60 * 24 * 30,
-  // on average 365.24 days in a year
-  SECONDS_PER_YEAR  : 1 * 60 * 60 * 24 * 365.24,
-  // SECONDS_PER_YEAR  : 1 * 60 * 60 * 24 * 365,
-
-  DEFAULT_NOW: (): Date => new Date(),
-  DEFAULT_LEVELS: 5,
-};
-
-/**
  * Get the ymdhms differences between two dates
  *
  * @param left  + date value
@@ -51,35 +32,35 @@ export function getTimeDelta(
   right: Date,
 ): TimeDelta {
   const {
-    SECONDS_PER_SECOND,
-    SECONDS_PER_MINUTE,
-    SECONDS_PER_HOUR,
-    SECONDS_PER_DAY,
-    SECONDS_PER_MONTH,
-    SECONDS_PER_YEAR,
-  } = AGE_DEFAULTS;
+    secondsPerSecond: secondsPerSecond,
+    secondsPerMinute: secondsPerMinute,
+    secondsPerHour: secondsPerHour,
+    secondsPerDay: secondsPerDay,
+    secondsPerMonth: secondsPerMonth,
+    secondsPerYear: secondsPerYear,
+  } = getAge.defaults;
 
   const leftMs = left.valueOf();
   const rightMs = right.valueOf();
   let delta = Math.abs(leftMs - rightMs) / 1000;
 
-  const years = Math.floor(delta / SECONDS_PER_YEAR);
-  delta -= years * SECONDS_PER_YEAR;
+  const years = Math.floor(delta / secondsPerYear);
+  delta -= years * secondsPerYear;
 
-  const months = Math.floor(delta / SECONDS_PER_MONTH);
-  delta -= months * SECONDS_PER_MONTH;
+  const months = Math.floor(delta / secondsPerMonth);
+  delta -= months * secondsPerMonth;
 
-  const days = Math.floor(delta / SECONDS_PER_DAY);
-  delta -= days * SECONDS_PER_DAY;
+  const days = Math.floor(delta / secondsPerDay);
+  delta -= days * secondsPerDay;
 
-  const hours = Math.floor(delta / SECONDS_PER_HOUR);
-  delta -= hours * SECONDS_PER_HOUR;
+  const hours = Math.floor(delta / secondsPerHour);
+  delta -= hours * secondsPerHour;
 
-  const minutes = Math.floor(delta / SECONDS_PER_MINUTE);
-  delta -= minutes * SECONDS_PER_MINUTE;
+  const minutes = Math.floor(delta / secondsPerMinute);
+  delta -= minutes * secondsPerMinute;
 
-  const seconds = Math.floor(delta / SECONDS_PER_SECOND);
-  delta -= seconds * SECONDS_PER_SECOND;
+  const seconds = Math.floor(delta / secondsPerSecond);
+  delta -= seconds * secondsPerSecond;
 
   const timeDelta: TimeDelta = {
     sign: leftMs < rightMs ? '+' : '',
@@ -114,36 +95,92 @@ export function getAge(
   birth: Date,
   options?: AgeOptions
 ): string {
-  const now = options?.now ?? AGE_DEFAULTS.DEFAULT_NOW();
-  const levels = options?.levels ?? AGE_DEFAULTS.DEFAULT_LEVELS;
+  const now = options?.now ?? getAge.defaults.NOW();
+  const levels = options?.levels ?? getAge.defaults.LEVELS;
   const delta = getTimeDelta(now, birth);
   let str = delta.sign;
   let cnt = 0;
+
+  if (levels < 0) {
+    throw new TypeError(`getAge(): "levels" must be >= 0. Given: ${levels}.`);
+  }
+
+  // years
+
   if (delta.years) {
     str += `${delta.years}y`;
     cnt += 1;
   }
+
+  // months
+
   if (cnt >= levels) return str;
+
   if (delta.months) {
     str += `${delta.months}m`;
     cnt += 1;
   }
+
+  // days
+
   if (cnt >= levels) return str;
+
   if (delta.days) {
     str += `${delta.days}d`;
     cnt += 1;
   }
+
+  // hours
+
   if (cnt >= levels) return str;
+
   if (delta.hours) {
     str += `${delta.hours}h`;
     cnt += 1;
   }
+
+  // minutes
+
   if (cnt >= levels) return str;
+
   if (delta.minutes) {
     str += `${delta.minutes}m`;
     cnt += 1;
   }
+
+  // seconds
+
   if (cnt >= levels) return str;
-  str += `${delta.seconds}s`;
+
+  if (delta.seconds) {
+    str += `${delta.seconds}s`;
+    cnt += 1;
+  }
+
+  // if there is no difference, show zero seconds...
+
+  if (cnt === 0) {
+    str += '0s';
+  }
+
   return str;
 }
+
+/**
+ * defaults for usage with `@nkp/age` functions
+ */
+getAge.defaults = {
+  secondsPerSecond: 1,
+  secondsPerMinute: 1 * 60,
+  secondsPerHour  : 1 * 60 * 60,
+  secondsPerDay   : 1 * 60 * 60 * 24,
+  // on average 30.437 days in a month
+  secondsPerMonth : 1 * 60 * 60 * 24 * 30.437,
+  // SECONDS_PER_MONTH : 1 * 60 * 60 * 24 * 30,
+  // on average 365.24 days in a year
+  secondsPerYear  : 1 * 60 * 60 * 24 * 365.24,
+  // SECONDS_PER_YEAR  : 1 * 60 * 60 * 24 * 365,
+
+  NOW: (): Date => new Date(),
+  LEVELS: 3,
+};

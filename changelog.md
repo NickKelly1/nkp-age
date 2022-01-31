@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.4 - 2022-01-30
+
+### Added
+
+- Tests
+- package.json#exports fields
+- GitHub action: test on push and PR
+
+### Changed
+
+- Bundle without rollup
+- Separate type declarations from js files
+
 ## 0.0.3 - 2022-01-19
 
 ### Changed
