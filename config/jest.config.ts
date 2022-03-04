@@ -7,7 +7,7 @@ export default async (): Promise<Config.InitialOptions> => ({
     '<rootDir>/src',
     '<rootDir>/tests',
   ],
-  coveragePathIgnorePatterns: ['.spec.util.ts','.test.uti.ts',],
+  coveragePathIgnorePatterns: ['.spec.util.ts','.test.util.ts',],
   coverageDirectory: '<rootDir>/coverage',
   globals: {
     'ts-jest': {
